@@ -7,7 +7,7 @@ import { Toaster } from "react-hot-toast";
 const roboto = Roboto({ subsets: ["vietnamese"], weight: ["100", "300", "400", "500", "700", "900"] });
 
 export const metadata: Metadata = {
-  title: "Medical Schedule",
+  title: "Good doctor",
   description: "Design By Xuan Trieu",
 };
 

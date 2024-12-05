@@ -7,9 +7,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { FaUserLock } from "react-icons/fa";
-import { BiLogoGmail } from "react-icons/bi";
-import { TbPasswordFingerprint } from "react-icons/tb";
-import { LiaPhoneSquareAltSolid } from "react-icons/lia";
 import { TbPasswordUser } from "react-icons/tb";
 import Link from "next/link";
 import { ROUTES } from "../../../constants/routes";
@@ -51,9 +48,14 @@ export default function FormLogin() {
               render={({ field }) => (
                 <FormItem className="relative">
                   <FormControl>
-                    <Input className="pl-7 focus:pl-9" placeholder="Nhập tên đăng nhập..." {...field} />
+                    <Input
+                      autoComplete="userName"
+                      className="pl-7 focus:pl-9"
+                      placeholder="Nhập tên đăng nhập..."
+                      {...field}
+                    />
                   </FormControl>
-                  <span className="absolute left-0 top-0 text-[#a78bfa]">
+                  <span className="absolute left-0 top-0 text-blue-600">
                     <FaUserLock />
                   </span>
                   <FormMessage />
@@ -69,10 +71,15 @@ export default function FormLogin() {
               render={({ field }) => (
                 <FormItem className="relative">
                   <FormControl>
-                    <Input className="pl-7 focus:pl-9" placeholder="Nhập số điện thoại của bạn..." {...field} />
+                    <Input
+                      autoComplete="password"
+                      className="pl-7 focus:pl-9"
+                      placeholder="Nhập mật khẩu của bạn..."
+                      {...field}
+                    />
                   </FormControl>
-                  <span className="absolute left-0 top-0 text-[#a78bfa]">
-                    <LiaPhoneSquareAltSolid />
+                  <span className="absolute left-0 top-0 text-blue-600">
+                    <TbPasswordUser />
                   </span>
                   <FormMessage />
                 </FormItem>
@@ -80,7 +87,7 @@ export default function FormLogin() {
             />
           </div>
           <div className="col-span-12 mt-1">
-            <div className="flex justify-end text-[12px] text-[#a78bfa] hover:text-blue-300">
+            <div className="flex justify-end text-[12px] text-blue-600 hover:text-blue-300">
               <Link href={ROUTES.AUTH.REGISTER}>Bạn chưa có tài khoản?</Link>
             </div>
           </div>

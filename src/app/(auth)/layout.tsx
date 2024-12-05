@@ -1,7 +1,9 @@
-import { IoLogoGoogle } from "react-icons/io";
-import { FaFacebookF } from "react-icons/fa";
-import Image from "next/image";
 import Link from "next/link";
+import Image from "next/image";
+
+import { FaFacebookF } from "react-icons/fa";
+import { IoLogoGoogle } from "react-icons/io";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -9,7 +11,7 @@ export default function RootLayout({
 }>) {
   return (
     <div>
-      <div className="min-h-[100vh] flex justify-center items-center bg-[linear-gradient(45deg,_#8F7DE1,_#E4E5F5)]">
+      <div className="min-h-[100vh] flex justify-center items-center bg-blue-50">
         <div className="md:w-[750px] md:h-[600px] xl:w-[1200px] xl:h-[700px] w-[100%] flex flex-col md:flex-row min-h-[100vh] md:rounded-[10px] md:min-h-[600px] overflow-hidden">
           <div className="md:bg-[right] flex-1 bg-[url('/images/BackgroundAuth.jpg')]  hidden bg-cover bg-center md:flex justify-center items-center">
             <div className="flex flex-col items-center">
@@ -49,22 +51,22 @@ export default function RootLayout({
               {children}
               <div className="mt-3 md:mt-2">
                 <div className="flex gap-4 items-center">
-                  <p className="h-[2px] flex-1 bg-[#8778CB]"></p>
-                  <p className="text-[#8778CB] font-normal text-[13px]">Hoặc đăng nhập với</p>
-                  <p className="h-[2px] flex-1 bg-[#8778CB]"></p>
+                  <p className="h-[2px] flex-1 bg-blue-600"></p>
+                  <p className="text-blue-500 font-normal text-[13px]">Hoặc đăng nhập với</p>
+                  <p className="h-[2px] flex-1 bg-blue-600"></p>
                 </div>
                 <div className="flex justify-center items-center mt-2 md:mt-2 xl:mt-6 gap-4">
                   <div className="flex items-center gap-1">
-                    <span className="p-1 md:p-1 xl:p-2 md:text-[14px] text-[13px] text-[#8778CB] hover:bg-[#8778CB] hover:text-white cursor-pointer rounded-[50%] w-max border flex justify-center items-center">
+                    <span className="p-1 md:p-1 xl:p-2 md:text-[14px] text-[13px] text-blue-600 hover:bg-blue-600 hover:text-white cursor-pointer rounded-[50%] w-max border flex justify-center items-center">
                       <IoLogoGoogle />
                     </span>
-                    <span className="text-[#8778CB] md:text-[13px] text-[12px]">Google</span>
+                    <span className="text-blue-600 md:text-[13px] text-[12px]">Google</span>
                   </div>
                   <div className="flex items-center gap-1">
-                    <span className="p-1 md:p-1 xl:p-2 md:text-[14px] text-[13px]  text-[#8778CB] hover:bg-[#8778CB] hover:text-white cursor-pointer rounded-[50%] w-max border flex justify-center items-center">
+                    <span className="p-1 md:p-1 xl:p-2 md:text-[14px] text-[13px]  text-blue-600 hover:bg-blue-600 hover:text-white cursor-pointer rounded-[50%] w-max border flex justify-center items-center">
                       <FaFacebookF />
                     </span>
-                    <span className="text-[#8778CB] md:text-[13px] text-[12px]">Facebook</span>
+                    <span className="text-blue-600 md:text-[13px] text-[12px]">Facebook</span>
                   </div>
                 </div>
               </div>

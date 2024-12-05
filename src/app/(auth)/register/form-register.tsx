@@ -1,24 +1,27 @@
 "use client";
 
-import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { z } from "zod";
+import Link from "next/link";
+import { useState } from "react";
+import { AxiosError } from "axios";
+import { Loader2 } from "lucide-react";
 import { useForm } from "react-hook-form";
+import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
+
 import { FaUserLock } from "react-icons/fa";
 import { BiLogoGmail } from "react-icons/bi";
-import { TbPasswordFingerprint } from "react-icons/tb";
 import { TbPasswordUser } from "react-icons/tb";
-import Link from "next/link";
-import { ROUTES } from "../../../constants/routes";
+import { TbPasswordFingerprint } from "react-icons/tb";
+
+import { ROUTES } from "@/constants/routes";
 import { IRegister } from "@/types/interfaces";
 import { useRegister } from "@/api/auth/mutations";
-import { AxiosError } from "axios";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
-import { Loader2 } from "lucide-react";
-import toast from "react-hot-toast";
+
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
+
 const formRegisterSchema = z
   .object({
     userName: z
@@ -42,9 +45,10 @@ const formRegisterSchema = z
   });
 
 export default function FormRegister() {
-  const [isLoading, setLoading] = useState(false);
   const router = useRouter();
   const { mutate: register } = useRegister();
+  const [isLoading, setLoading] = useState(false);
+
   const form = useForm<z.infer<typeof formRegisterSchema>>({
     resolver: zodResolver(formRegisterSchema),
     defaultValues: {
@@ -54,10 +58,10 @@ export default function FormRegister() {
       confirmPassword: "",
     },
   });
+
   const handleSubmitRegister = async (values: IRegister) => {
     const { email, password, userName } = values;
     setLoading(true);
-
     register(
       { email, password, userName },
       {
@@ -67,9 +71,6 @@ export default function FormRegister() {
         },
         onError: (e) => {
           setLoading(false);
-          toast.error(e.message);
-          console.log(e);
-
           if (e instanceof AxiosError) {
             if (e.response?.data.message.userName) {
               form.setError("userName", {
@@ -100,9 +101,14 @@ export default function FormRegister() {
               render={({ field }) => (
                 <FormItem className="relative">
                   <FormControl>
-                    <Input className="pl-7 focus:pl-9" placeholder="Nhập tên đăng nhập..." {...field} />
+                    <Input
+                      autoComplete="userName"
+                      className="pl-7 focus:pl-9"
+                      placeholder="Nhập tên đăng nhập..."
+                      {...field}
+                    />
                   </FormControl>
-                  <span className="absolute left-0 top-0 text-[#a78bfa]">
+                  <span className="absolute left-0 top-0 text-blue-600">
                     <FaUserLock />
                   </span>
                   <FormMessage />
@@ -117,9 +123,14 @@ export default function FormRegister() {
               render={({ field }) => (
                 <FormItem className="relative">
                   <FormControl>
-                    <Input className="pl-7 focus:pl-9" placeholder="Nhập email của bạn..." {...field} />
+                    <Input
+                      autoComplete="email"
+                      className="pl-7 focus:pl-9"
+                      placeholder="Nhập email của bạn..."
+                      {...field}
+                    />
                   </FormControl>
-                  <span className="absolute left-0 top-0 text-[#a78bfa]">
+                  <span className="absolute left-0 top-0 text-blue-600">
                     <BiLogoGmail />
                   </span>
                   <FormMessage />
@@ -134,9 +145,15 @@ export default function FormRegister() {
               render={({ field }) => (
                 <FormItem className="relative">
                   <FormControl>
-                    <Input type="password" className="pl-7 focus:pl-9" placeholder="Nhập mật khẩu..." {...field} />
+                    <Input
+                      autoComplete="password"
+                      type="password"
+                      className="pl-7 focus:pl-9"
+                      placeholder="Nhập mật khẩu..."
+                      {...field}
+                    />
                   </FormControl>
-                  <span className="absolute left-0 top-0 text-[#a78bfa]">
+                  <span className="absolute left-0 top-0 text-blue-600">
                     <TbPasswordUser />
                   </span>
                   <FormMessage />
@@ -151,9 +168,15 @@ export default function FormRegister() {
               render={({ field }) => (
                 <FormItem className="relative">
                   <FormControl>
-                    <Input type="password" className="pl-7 focus:pl-9" placeholder="Nhập lại mật khẩu..." {...field} />
+                    <Input
+                      autoComplete="confirmPassword"
+                      type="password"
+                      className="pl-7 focus:pl-9"
+                      placeholder="Nhập lại mật khẩu..."
+                      {...field}
+                    />
                   </FormControl>
-                  <span className="absolute left-0 top-0 text-[#a78bfa]">
+                  <span className="absolute left-0 top-0 text-blue-600">
                     <TbPasswordFingerprint />
                   </span>
                   <FormMessage />
@@ -162,7 +185,7 @@ export default function FormRegister() {
             />
           </div>
           <div className="col-span-12 mt-1">
-            <div className="flex justify-end text-[12px] text-[#a78bfa] hover:text-blue-300">
+            <div className="flex justify-end text-[12px] text-blue-600 hover:text-blue-400">
               <Link href={ROUTES.AUTH.LOGIN}>Bạn đã có tài khoản?</Link>
             </div>
           </div>
