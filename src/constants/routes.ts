@@ -7,4 +7,8 @@ export const ROUTES = {
   USER: {
     HOME: "/",
   },
+  ADMIN: {
+    DASHBOARD: "/admin",
+  },
+  NOTFOUND: "/not-found",
 };
