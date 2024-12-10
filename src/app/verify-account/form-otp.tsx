@@ -34,20 +34,19 @@ export default function FormVerifyOTP() {
         router.push(ROUTES.NOTFOUND);
       }
     }
-  }, [error]);
+  }, [error, router]);
 
   useEffect(() => {
     socket.on("verifySuccess", (data) => {
       localStorage.setItem("accessToken", data.accessToken);
       localStorage.setItem("refreshToken", data.refreshToken);
-      console.log(data);
       if (data.role === ROLE.ADMIN) {
         router.push(ROUTES.ADMIN.DASHBOARD);
       } else if (data.role === ROLE.USER) {
         router.push(ROUTES.USER.HOME);
       }
     });
-  }, []);
+  }, [router]);
 
   useEffect(() => {
     if (expirationTimeData?.data.userId) {
@@ -71,7 +70,7 @@ export default function FormVerifyOTP() {
         }
       }, 1000);
     }
-  }, [expirationTimeData?.data.expiryTime]);
+  }, [expirationTimeData?.data.expiryTime, router]);
 
   useEffect(() => {}, []);
   const formOTPSchema = z.object({

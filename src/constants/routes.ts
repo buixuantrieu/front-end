@@ -5,7 +5,7 @@ export const ROUTES = {
     VERIFY: "/verify-account",
   },
   USER: {
-    HOME: "/",
+    HOME: "/home",
   },
   ADMIN: {
     DASHBOARD: "/admin",

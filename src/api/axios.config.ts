@@ -1,6 +1,5 @@
 import axios from "axios";
 
-
 const BASE_URL = process.env.NEXT_PUBLIC_API_ENDPOINT;
 export const axiosPublic = axios.create({
   baseURL: BASE_URL,
@@ -40,7 +39,8 @@ axiosPrivate.interceptors.response.use(
         });
 
         const { accessToken } = response.data;
-        localStorage.setItem("authToken", accessToken);
+
+        localStorage.setItem("accessToken", accessToken);
 
         originalRequest.headers.Authorization = `Bearer ${accessToken}`;
         return axiosPrivate(originalRequest);
