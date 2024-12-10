@@ -10,19 +10,22 @@ import { FaUserLock } from "react-icons/fa";
 import { TbPasswordUser } from "react-icons/tb";
 import Link from "next/link";
 import { ROUTES } from "../../../constants/routes";
+import { ILogin } from "@/types/interfaces";
+import { useLogin } from "@/api/auth/mutations";
+import { AxiosError } from "axios";
+import { ROLE } from "@/types/enum";
+import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
 const formRegisterSchema = z.object({
-  userName: z
-    .string()
-    .trim()
-    .min(5, "Tên đăng nhập từ 5 đến 20 kí tự!")
-    .max(20, "Tên đăng nhập từ 5 đến 20 kí tự!")
-    .regex(/^\S*$/, "Tên đăng nhập không được chứa khoảng trắng!")
-    .regex(/^[a-z0-9]*$/, "Tên đăng nhập gồm chữ thường và số!"),
-  password: z.string().min(1, "Vui lòng nhập email!").max(100).email("Không phải định dạng email!"),
+  userName: z.string().trim().min(1, "Vui lòng nhập tên tài khoản hoặc email!"),
+  password: z.string().min(1, "Vui lòng nhập mật khẩu!").max(100),
 });
 
 export default function FormLogin() {
+  const { mutate: login } = useLogin();
+  const router = useRouter();
+
   const form = useForm<z.infer<typeof formRegisterSchema>>({
     resolver: zodResolver(formRegisterSchema),
     defaultValues: {
@@ -31,14 +34,37 @@ export default function FormLogin() {
     },
   });
 
-  const handleSubmitRegister = () => {
-    console.log(1);
+  const handleSubmitLogin = (values: ILogin) => {
+    login(
+      { userName: values.userName, password: values.password },
+      {
+        onSuccess: (result) => {
+          localStorage.setItem("accessToken", result.data.accessToken);
+          localStorage.setItem("refreshToken", result.data.refreshToken);
+          if (result.data.role === ROLE.ADMIN) {
+            router.push(ROUTES.ADMIN.DASHBOARD);
+          } else if (result.data.role === ROLE.USER) {
+            router.push(ROUTES.USER.HOME);
+          }
+          toast.success("Đăng nhập thành công!");
+        },
+        onError: (e) => {
+          if (e instanceof AxiosError) {
+            if (e.status === 404) {
+              form.setError("password", {
+                message: e.response?.data.message,
+              });
+            }
+          }
+        },
+      }
+    );
   };
   return (
     <Form {...form}>
       <form
         className="flex-1 flex flex-col justify-center sm: gap-1 xl:gap-12"
-        onSubmit={form.handleSubmit(handleSubmitRegister)}
+        onSubmit={form.handleSubmit(handleSubmitLogin)}
       >
         <div className="grid grid-cols-12">
           <div className="col-span-12 mt-1">
@@ -51,7 +77,7 @@ export default function FormLogin() {
                     <Input
                       autoComplete="userName"
                       className="pl-7 focus:pl-9"
-                      placeholder="Nhập tên đăng nhập..."
+                      placeholder="Nhập tên đăng nhập hoặc email..."
                       {...field}
                     />
                   </FormControl>
@@ -72,6 +98,7 @@ export default function FormLogin() {
                 <FormItem className="relative">
                   <FormControl>
                     <Input
+                      type="password"
                       autoComplete="password"
                       className="pl-7 focus:pl-9"
                       placeholder="Nhập mật khẩu của bạn..."

@@ -1,4 +1,4 @@
-import { IRegister } from "@/types/interfaces";
+import { ILogin, IRegister } from "@/types/interfaces";
 import { axiosPublic } from "../axios.config";
 import { IVerify } from "./type";
 
@@ -18,4 +18,9 @@ const fetchVerification = async (data: IVerify) => {
   const res = await axiosPublic.post("/auth/verify", data);
   return res.data;
 };
-export { fetchRegister, fetchExpiryTime, fetchVerification };
+
+const fetchLogin = async (data: ILogin) => {
+  const res = await axiosPublic.post("/auth/login", data);
+  return res.data;
+};
+export { fetchRegister, fetchExpiryTime, fetchVerification, fetchLogin };

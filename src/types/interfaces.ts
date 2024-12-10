@@ -3,3 +3,7 @@ export interface IRegister {
   password: string;
   email: string;
 }
+export interface ILogin {
+  userName: string;
+  password: string;
+}
